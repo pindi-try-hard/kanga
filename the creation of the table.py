@@ -14,5 +14,5 @@ sql =('''CREATE TABLE MEDICAL_RECORDS(
    COVID_VACCINATION_DETAILS CHAR(100),
    PRE_MEDICAL_HISTORY CHAR(100))''')
 cursor.execute(sql)
-mydb.close()
+mydb.commit()
 print("TABLE HAS BEEN CREATED")
