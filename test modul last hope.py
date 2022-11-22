@@ -24,7 +24,7 @@ while(1):
         BLOOD_GROUP CHAR(20),
         COVID_VACCINATION CHAR(100),
         COVID_VACCINATION_DETAILS CHAR(100),
-        PRE_MEDICAL_HISTORY CHAR(100))''')
+        PRE_MEDICAL_HISTORY CHAR(200))''')
         cursor.execute(sql)
     except mysql.connector.errors.ProgrammingError :
         
@@ -69,8 +69,8 @@ def display_input():
    f=var6.get()
    g=var7.get()
    h=var8.get()
-   
-   print(a,b,c,d,e,f,g,h)
+   values=a+' '+b+' '+c+' '+d+' '+e+' '+f+' '+g+' '+h
+   return values
 
 var1=StringVar()
 var2=StringVar()
@@ -84,29 +84,27 @@ var8=StringVar()
 t1 = Checkbutton(window, text="cancer", variable=var1, onvalue='cancer', offvalue='')
 t1.deselect()
 t1.grid(row=10,column=1)
-t2 = Checkbutton(window, text="high blood pressure", variable=var2, onvalue='high blood pressure', offvalue='')
+t2 = Checkbutton(window, text="high-blood-pressure", variable=var2, onvalue='high-blood-pressure', offvalue='')
 t2.deselect()
 t2.grid(row=11,column=1)
 t3 = Checkbutton(window, text="diabetes", variable=var3, onvalue='diabetes', offvalue='')
 t3.deselect()
 t3.grid(row=12,column=1)
-t4 = Checkbutton(window, text="high cholestrol", variable=var4, onvalue='high cholestrol', offvalue='')
+t4 = Checkbutton(window, text="high-cholestrol", variable=var4, onvalue='high-cholestrol', offvalue='')
 t4.deselect()
 t4.grid(row=13,column=1)
-t5 = Checkbutton(window, text="Asthma or lung disease", variable=var5, onvalue='Asthma or lung disease', offvalue='')
+t5 = Checkbutton(window, text="Asthma-or-lung disease", variable=var5, onvalue='Asthma-or-lung disease', offvalue='')
 t5.deselect()
 t5.grid(row=14,column=1)
-t6 = Checkbutton(window, text="Thyroid disease", variable=var6, onvalue='Thyroid disease', offvalue='')
+t6 = Checkbutton(window, text="Thyroid-disease", variable=var6, onvalue='Thyroid-disease', offvalue='')
 t6.deselect()
 t6.grid(row=15,column=1)
-t7 = Checkbutton(window, text="Liver disease", variable=var7, onvalue='Liver disease', offvalue='')
+t7 = Checkbutton(window, text="Liver-disease", variable=var7, onvalue='Liver-disease', offvalue='')
 t7.deselect()
 t7.grid(row=16,column=1)
 t8 = Checkbutton(window, text="Dementia", variable=var8, onvalue='Dementia', offvalue='')
 t8.deselect()
 t8.grid(row=17,column=1)
-btn=Buttonbtn=Button(window,text="save data",command=display_input)
-btn.grid(row=18,column=1)
 def savedata():
     admn_number=ent1.get()
     name=ent2.get()
@@ -117,7 +115,7 @@ def savedata():
     blood_group=ent7.get()
     covid_vaccination=ent8.get()
     covid_vaccination_details=ent9.get()
-    pre_medical_history=confirm
+    pre_medical_history=display_input()
     cursor.execute('''insert into medical_records
      (admn_number,name,age,sex,height,weight,blood_group,covid_vaccination,
      covid_vaccination_details,pre_medical_history)'''
@@ -125,7 +123,6 @@ def savedata():
     mydb.commit()
     print("record inserted")
     myLabel=Label(window,text='record inserted')
-    myLabel.grid(row=12,column=1)
+    myLabel.grid(row=12,column=0)
 btn=Button(window,text="save data",command=savedata)
 btn.grid(row=11,column=2)
-
