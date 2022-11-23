@@ -16,14 +16,14 @@ while(1):
         cursor.execute("USE test")       
         sql =('''CREATE TABLE MEDICAL_RECORDS(
         ADMN_NUMBER INT PRIMARY KEY,
-        NAME CHAR(20) NOT NULL,
+        NAME CHAR(200) NOT NULL,
         AGE INT,
-        SEX CHAR(1),
+        SEX CHAR(200),
         HEIGHT INT,
         WEIGHT INT,
-        BLOOD_GROUP CHAR(20),
-        COVID_VACCINATION CHAR(100),
-        COVID_VACCINATION_DETAILS CHAR(100),
+        BLOOD_GROUP CHAR(200),
+        COVID_VACCINATION CHAR(200),
+        COVID_VACCINATION_DETAILS CHAR(200),
         PRE_MEDICAL_HISTORY CHAR(200))''')
         cursor.execute(sql)
     except mysql.connector.errors.ProgrammingError :
@@ -34,8 +34,8 @@ lab1=Label(window,text='Admn number',font=("times new roman", 20)).grid(row=1,co
 lab2=Label(window,text='Name',font=("times new roman", 20)).grid(row=2,column=0)
 lab3=Label(window,text='Age',font=("times new roman", 20)).grid(row=3,column=0)
 lab4=Label(window,text='Gender(m/f)',font=("times new roman", 20)).grid(row=4,column=0)
-lab5=Label(window,text='Height',font=("times new roman", 20)).grid(row=5,column=0)
-lab6=Label(window,text='Weight',font=("times new roman", 20)).grid(row=6,column=0)
+lab5=Label(window,text='Height(in cms)',font=("times new roman", 20)).grid(row=5,column=0)
+lab6=Label(window,text='Weight(in kg)',font=("times new roman", 20)).grid(row=6,column=0)
 lab7=Label(window,text='Blood group',font=("times new roman", 20)).grid(row=7,column=0)
 lab8=Label(window,text='If the patient had covid',font=("times new roman", 20)).grid(row=8,column=0)
 lab9=Label(window,text='Did patient take vaccine(no of doses)',font=("times new roman", 20)).grid(row=9,column=0)
@@ -46,8 +46,8 @@ ent2=Entry(window)
 ent2.grid(row=2,column=1)
 ent3=Entry(window)
 ent3.grid(row=3,column=1)
-ent4=Entry(window)
-ent4.grid(row=4,column=1)
+#ent4=Entry(window)
+#ent4.grid(row=4,column=1)
 ent5=Entry(window)
 ent5.grid(row=5,column=1)
 ent6=Entry(window)
@@ -60,6 +60,22 @@ ent9=Entry(window)
 ent9.grid(row=9,column=1)
 #ent10=Entry(window)
 #ent10.grid(row=10,column=1)
+def show():
+    return(clicked.get())
+options = [
+    "MALE",
+    "FEMALE",
+    "TRANSGENDER",
+    "BISEXUAL",
+    "Friday",
+    "GAY",
+    "LESBIAN"
+]
+clicked = StringVar()
+clicked.set('choose your gender')
+drop=OptionMenu(window,clicked,*options )
+drop.grid(row=4,column=1)
+
 def display_input():
    a=var1.get()
    b=var2.get()
@@ -105,11 +121,14 @@ t7.grid(row=16,column=1)
 t8 = Checkbutton(window, text="Dementia", variable=var8, onvalue='Dementia', offvalue='')
 t8.deselect()
 t8.grid(row=17,column=1)
+t9 = Checkbutton(window, text="NILL", variable=var8, onvalue='NILL', offvalue='')
+t9.deselect()
+t9.grid(row=18,column=1)
 def savedata():
     admn_number=ent1.get()
     name=ent2.get()
     age=ent3.get()
-    sex=ent4.get()
+    sex=show()
     height=ent5.get()
     weight=ent6.get()
     blood_group=ent7.get()
@@ -121,7 +140,10 @@ def savedata():
      covid_vaccination_details,pre_medical_history)'''
      "values('"+admn_number+"','"+name+"','"+age+"','"+sex+"','"+height+"','"+weight+"','"+blood_group+"','"+covid_vaccination+"','"+covid_vaccination_details+"','"+pre_medical_history+"')")
     mydb.commit()
-    print("record inserted")
+    a=int(height)/100
+    b=a*a
+    BMI=int(weight)/float(b)
+    print('Your BMI is:',BMI)
     myLabel=Label(window,text='record inserted')
     myLabel.grid(row=12,column=0)
 btn=Button(window,text="save data",command=savedata)
