@@ -3,7 +3,7 @@ import tkinter as tk
 window=tk.Tk()
 window.title("enter records")
 import mysql.connector
-mydb=mysql.connector.connect(host='localhost',user='root',passwd='tiger')
+mydb=mysql.connector.connect(host='localhost',user='root',passwd='kingfisher')
 cursor = mydb.cursor()
 while(1):
     try:
@@ -56,20 +56,27 @@ ent6.grid(row=6,column=1)
 #ent7.grid(row=7,column=1)
 #ent8=Entry(window)
 #ent8.grid(row=8,column=1)
-ent9=Entry(window)
-ent9.grid(row=9,column=1)
+#ent9=Entry(window)
+#ent9.grid(row=9,column=1)
 #ent10=Entry(window)
 #ent10.grid(row=10,column=1)
+def vaccine():
+    return(f.get())
+f=StringVar()
+YES = Radiobutton(text="YES",variable=f,value='YES',command=vaccine())
+YES.grid(row=9,column=1,sticky="W")
+NO = Radiobutton(text="NO",variable=f,value='NO',command=vaccine())
+NO.grid(row=9,column=2,sticky="W",pady=20)
+
+
+
 def COVID():
-    return(clicked2.get())
-options = [
-    "YES",
-    "NO",
-]
-clicked2 = StringVar()
-clicked2.set('YES / NO')
-drop=OptionMenu(window,clicked2,*options )
-drop.grid(row=8,column=1)
+    return(r.get())
+r=StringVar()
+YES = Radiobutton(text="YES",variable=r,value='YES',command=COVID())
+YES.grid(row=8,column=1,sticky="W",)
+NO = Radiobutton(text="NO",variable=r,value='NO',command=COVID())
+NO.grid(row=8,column=2,sticky="W",pady=10)
 
 def blood_GROUP():
     return(clicked1.get())
@@ -157,7 +164,7 @@ def savedata():
     weight=ent6.get()
     blood_group=blood_GROUP()
     covid_vaccination=COVID()
-    covid_vaccination_details=ent9.get()
+    covid_vaccination_details=vaccine()
     pre_medical_history=display_input()
     cursor.execute('''insert into medical_records
      (admn_number,name,age,sex,height,weight,blood_group,covid_vaccination,
@@ -170,5 +177,6 @@ def savedata():
     print('Your BMI is:',BMI)
     myLabel=Label(window,text='record inserted')
     myLabel.grid(row=12,column=0)
-btn=Button(window,text="SAVE DATA",bg='#49adff',command=savedata)
+btn=Button(window,text="SAVE DATA",bg='red',command=savedata)
 btn.grid(row=19,column=2)
+#49adff
