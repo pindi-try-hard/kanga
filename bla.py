@@ -35,9 +35,9 @@ while(1):
         break
 cursor.execute("use test")
 def INSERT():
-    global new_window,ent1,ent2,ent3,ent5,ent6,clicked1,clicked
-    #new_window=Toplevel(main_window)
-    new_window=Tk()
+    global new_window,ent1,ent2,ent3,ent5,ent6,ent7,clicked1,clicked
+    new_window=Toplevel(main_window)
+    #new_window=Tk()
     new_window.title("ENTER RECORDS")
     #new_window.config(background='')
     lab1=Label(new_window,text='ADMN NUMBER',font=("times new roman", 13)).grid(row=1,column=0)
@@ -149,9 +149,9 @@ def INSERT():
     btnquit=Button(new_window,text='Exit',command=close,bg='light grey')
     btnquit.grid(row=20,column=3)
 
-
+admn=IntVar()
 def view():
-    #global admn
+    global admn
     import tkinter as tk
     import mysql.connector
     mydb=mysql.connector.connect(host='localhost',user='root',passwd='tiger')
@@ -160,8 +160,9 @@ def view():
     view.title('Details')
     view.geometry('500x300')
     lab1=Label(view,text='ADMN NUMBER :',font=("times new roman", 13)).grid(row=1,column=0)
-    admn=Entry(view)
-    admn.grid(row=1,column=1)
+    e1=Entry(view,textvariable=admn)
+    e1.grid(row=1,column=1)
+    adm=e1.get()
     
     
     def disp():
@@ -176,8 +177,8 @@ def view():
         lab9=Label(view,text='COVID VACCINATION STATUS :',font=("times new roman", 13)).grid(row=9,column=0)
         lab10=Label(view,text='PAST HISTORY :',font=("times new roman", 13)).grid(row=10,column=0)
         cursor.execute('Use test;')
-        
-        query='SELECT * FROM MEDICAL_RECORDS WHERE ADMN_NUMBER={}'.format(admn)
+        print(adm)
+        '''query='SELECT * FROM MEDICAL_RECORDS WHERE ADMN_NUMBER={}'.format(adm)
         cursor.execute(query)
         data=cursor.fetchall()
         mydb.commit()
@@ -193,7 +194,7 @@ def view():
             bld_grp=(p[6])
             covid=(p[7])
             vaccine=(p[8])
-            past=(p[9])
+            past=(p[9])'''
 
         e2=Label(view,text=name,font=("times new roman", 13)).grid(row=2,column=1)
         e3=Label(view,text=age,font=("times new roman", 13)).grid(row=3,column=1)
@@ -248,9 +249,9 @@ var7=StringVar()
 var8=StringVar()
 var9=StringVar()
 def BMI():
-    a=int(ent5.get())/100
+    a=int(ent6.get())/100
     b=a*a
-    BMI=int(ent6.get())/float(b)
+    BMI=int(ent7.get())/float(b)
     print('Your BMI is:',BMI)
     BMI=round(BMI,1)
     bmi_index(BMI)
@@ -278,19 +279,25 @@ def savedata():
     name=ent2.get()
     age=ent3.get()
     sex=show()
-    height=ent5.get()
-    weight=ent6.get()
+    height=ent6.get()
+    weight=ent7.get()
     blood_group=blood_GROUP()
     covid_vaccination=COVID()
     covid_vaccination_details=vaccine()
     pre_medical_history=viewlay_input()
-    cursor.execute('''insert into medical_records
-     (admn_number,name,age,sex,height,weight,blood_group,covid_vaccination,
-     covid_vaccination_details,pre_medical_history)'''
-     "values('"+admn_number+"','"+name+"','"+age+"','"+sex+"','"+height+"','"+weight+"','"+blood_group+"','"+covid_vaccination+"','"+covid_vaccination_details+"','"+pre_medical_history+"')")
+    try:
+        
+        cursor.execute('''insert into medical_records
+         (admn_number,name,age,sex,height,weight,blood_group,covid_vaccination,
+         covid_vaccination_details,pre_medical_history)'''
+         "values('"+admn_number+"','"+name+"','"+age+"','"+sex+"','"+height+"','"+weight+"','"+blood_group+"','"+covid_vaccination+"','"+covid_vaccination_details+"','"+pre_medical_history+"')")
+        messagebox.showinfo('Success','Record inserted')
+    except:
+        messagebox.showinfo('Utter failure','Record already exists')
+
     mydb.commit()
-    myLabel=Label(new_window,text='record inserted')
-    myLabel.grid(row=12,column=0)
+        
+
 
 
 btn6=Button(text='ADD NEW RECORD',command=INSERT,bg='lavender').grid(row=1,column=0,padx=10,pady=5,ipadx=50)
